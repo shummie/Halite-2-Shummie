@@ -40,7 +40,7 @@ Sorry, I don't have a fancy name for this. I first noticed this from @zxqfl but 
  
 ## The NAP
 
-Wait, what? Yes... The Non-Aggression Pact. Or, I guess it would be more accurately described as the alliance.
+Wait, what? Yes... The Non-Aggression Pact. Or, I guess it would be more accurately described as the [alliance](https://halite.io/play/?game_id=9266337).
 
 @ewirkerman and I had decided to collaborate and create a NAP in 4 player games. Every game, we would send a signal in 4p games, and if the secret handshake was detected, we would not attack each other's docked ships. For all intents and purposes, our ships were invisible to each other (or... at least that was the intent). Also, we would make sure that the enemy was completely eliminated before turning on each other. This would, in theory, guarantee that we were placed 1st and 2nd when we were on the same side of the map, and in theory, would still have some benefit if we were across or diagonal from each other.
 
