@@ -2,6 +2,8 @@
 
 Two Sigma has done it again. Halite 2 was three months of amazing and fun competition. While there are always aspects of the game that could be improved, I will not be focusing on that in this writeup. Halite 2 was probably a bit less accessible than Halite 1, while also being more accessible with its theme. Halite 1 will always hold a special place in my heart since it was what sucked me into competitive programming. I had been looking forward for months to see if Halite 2 was happening and I was so excited when it was. I was also given an opportunity to participate in the beta and to provide some feedback. Being able to contribute a little bit to Halite 2 made this very special as well. 
 
+I work as an Actuary at Allstate Insurance Company. Halite 1 was my first experience with competitive programming, and my background is completely unrelated to anything related to AI or CS. It goes to show that anyone, really anyone, can learn this and perform well!
+
 # Strategic Developments
 
 Before going into my bot, I do want to talk a little about the "meta" shifts that occurred, or ideas that popped into / out of existance over the course of the competition. Unfortunately, since my memory fails me, these are likely not in the order that they appeared, but that doesn't really matter much.
@@ -417,4 +419,4 @@ Thank you to the community for being so helpful. A special shoutout to @fohristi
 
 Thank you to @ewirkerman for being my sounding board this time. While it doesn't look like our NAP is going to have much of an effect, it was fun to collaborate with him on this. I will say that I messed up the implementation and actually resulted in me backstabbing him :( Neither of us had caught this until the finals and it was obviously too late to change it by then.
 
-
+A shoutout to my other Allstate competitors! @CageyFeck[https://halite.io/user?user_id=1597], @paulrobshannon[https://halite.io/user?user_id=2459], @RuMcClu[https://halite.io/user?user_id=1436], @necoleman[https://halite.io/user?user_id=1636], @floorwater[https://halite.io/user?user_id=3925], @summerjets[https://halite.io/user?user_id=1229], @mtmelton[https://halite.io/user?user_id=3959], and @jasonmkahn[https://halite.io/user?user_id=2120]
