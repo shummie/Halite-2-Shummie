@@ -21,24 +21,24 @@ In reality, this idea actually came from @DexGroves. My former colleague who unf
 
 Hopefully we won't see something similar in Halite 3.
 
-###The Drone Harass
+### The Drone Harass
 
 So, for those of you young'uns who don't know what the drone harass is, watch this: <INSERT LINK>
 
 Ok, for everyone else. I first noticed this from @ewirkerman. Early on, he would send out a lone ship (I think even as aggressively as one of his three starting ships) to harass the enemy by either targeting his docked ships, or by distracting them enough that they would start chasing it and thus lose production. Early on, most bots did not have good defense, or would overcommit to defending against enemy ships. It was a very effective strategy for a long time until people started having better enemy targeting and wouldn't have 10 ships chase a single one. You can still see this idea in many bots today, maybe not explicitly coded, but more from emergent behavior through better combat evaluation.
 
-###Rushing
+### Rushing
 
 Oh rushing. How I hate you. I'm going to get the attribution wrong, but I think the first person that I saw do this was @mellendo in the beta. I noticed that he was quickly rushing to kill off people's ships early on and it was all downhill from there. I'm not going to expound upon this more since @fohristiwhirl did a great job explaining this in his writeup <LINK HERE>.
 
 I think rushing is a broken mechanic that basically reduces the game to a coinflip.
 
-###The Prisoner's Dilemma
+### The Prisoner's Dilemma
 
 So rushing in 4p games was... a nuisance. Early on, when bots didn't have proper rush defense, it benefited people to rush their opponent, take them out early, and thus get half the map for yourself. However, as the meta developed, it basically became the prisoner's dilemma. If one bot rushed while the other didn't, the bot that rushed would win. If both bots rushed, then it was likely they'll kill / stall each other and the other two players who didn't rush would win. I was one of the more... enthusiastic rushers, but more out of necessity than anything else. It wasn't until the last few days where I was able to tone it down enough to still maintain/improve my win rate.
 
 A common counter to this was that players would move to a planet, but not dock if there was the possibility of a rush occurring. See this game (https://halite.io/play/?game_id=7877830) for an example of the most exciting game ever. Eventually, I think it became accepted that cooperation was better than betrayal, and most people opted to dock if possible instead of rushing the enemy at the top end.
 
-###Numeric Superiority
+### Numeric Superiority
 
 Sorry, I don't have a fancy name for this. I first noticed this from @zxqfl but I think Recurs3 and FakePsyho took this to a whole new level. Basically, it boils down to: Do not fight in a fight where you cannot win. Prior to this, most ships just attacked each other haphazardly. But, in reality, fighting for a tie does nothing. Detecting if you were outnumbered, or in a tie, meant that you should try retreating back to a friendly ship to outnumber the opponent. By the end, every top bot was doing this in some form or fashion. It's not always easy to figure out when you could attack or not. This lead to some games having a giant deathball rolling around <<REPLAY HERE>>. I can only speculate on how people implemented this but different implementations led to different behaviors.
