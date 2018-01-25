@@ -413,7 +413,7 @@ Thank you first off to my loving and supportive wife. She's learned from Halite 
 
 Thank you to Two Sigma for an awesome competition. Halite 1 was amazing and Halite 2 was just as fun!
 
-Thank you to the community for being so helpful. A special shoutout to @fohristiwhirl for his contributions to the community with his helpful tools.
+Thank you to the community for being so helpful. A special shoutout to @fohristiwhirl for his contributions to the community with his helpful tools. and @janzert for his beautiful statistics and general support of the competition.
 
 Thank you to @ewirkerman for being my sounding board this time. While it doesn't look like our NAP is going to have much of an effect, it was fun to collaborate with him on this. I will say that I messed up the implementation and actually resulted in me backstabbing him :( Neither of us had caught this until the finals and it was obviously too late to change it by then.
 
