@@ -65,7 +65,7 @@ The next reign was from @zxqfl. He held the top spot for a while and every time 
 
 ## The ReCurs3 FakePsyho rivalry.
 
-An arms race developed up through the midseason between @ReCurs3 and @FakePsyho. @ReCurs3 was the first to beat @zxqfl but @FakePsyho quicky caught up and surpassed @ReCurs3 on 12/11. @FakePsyho officially won the Midseason and then was fairly inactive after that. He held on to the lead until around December 26th when @ReCurs3 took over.
+An arms race developed up through the midseason between @ReCurs3 and @FakePsyho. @ReCurs3 was the first to beat @zxqfl but @FakePsyho quicky caught up and surpassed @ReCurs3 on 12/11. @FakePsyho officially won the Midseason and then was fairly inactive after that. He held on to the lead until early January when @ReCurs3 took over.
 
 ## The ReCurse3 era
 
