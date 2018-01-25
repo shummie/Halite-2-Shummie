@@ -18,13 +18,13 @@ Hopefully we won't see the need to implement something similar in Halite 3.
 
 ## The Drone Harass
 
-So, for those of you young'uns who don't know what the drone harass is, watch this: (https://www.youtube.com/watch?v=etDGtMMhf9w)
+So, for those of you young'uns who don't know what the drone harass is, watch this: [Probe Rush](https://www.youtube.com/watch?v=etDGtMMhf9w)
 
 Ok, for everyone else. I first noticed this from @ewirkerman. Early on, he would send out a lone ship (I think even as aggressively as one of his three starting ships) to harass the enemy by either targeting his docked ships, or by distracting them enough that they would start chasing it and thus lose production. Early on, most bots did not have good defense, or would overcommit to defending against enemy ships. It was a very effective strategy for a long time until people started having better enemy targeting and wouldn't have 10 ships chase a single one. You can still see this idea in many bots today, maybe not explicitly coded, but more from emergent behavior through better combat evaluation.
 
 ## Rushing
 
-Oh rushing. How I hate you. I'm going to get the attribution wrong, but I think the first person that I saw do this was @mellendo in the beta. I noticed that he was quickly rushing to kill off people's ships early on and it was all downhill from there. I'm not going to expound upon this more since @fohristiwhirl did a great job explaining this in his writeup (https://github.com/fohristiwhirl/halite2_rush_theory).
+Oh rushing. How I hate you. I'm going to get the attribution wrong, but I think the first person that I saw do this was @mellendo in the beta. I noticed that he was quickly rushing to kill off people's ships early on and it was all downhill from there. I'm not going to expound upon this more since @fohristiwhirl did a great job explaining this in his writeup [Rush Theory](https://github.com/fohristiwhirl/halite2_rush_theory).
 
 I think rushing is a broken game design that basically reduces the game to a coinflip. 
 
@@ -32,7 +32,7 @@ I think rushing is a broken game design that basically reduces the game to a coi
 
 So rushing in 4p games was... a nuisance. Early on, when bots didn't have proper rush defense, it benefited people to rush their opponent, take them out early, and thus get half the map for yourself. However, as the meta developed, it basically became the prisoner's dilemma. If one bot rushed while the other didn't, the bot that rushed would win. If both bots rushed, then it was likely they'll kill / stall each other and the other two players who didn't rush would win. I was one of the more... enthusiastic rushers, but more out of necessity than anything else. It wasn't until the last few days where I was able to tone it down enough to still maintain/improve my win rate.
 
-A common counter to this was that players would move to a planet, but not dock if there was the possibility of a rush occurring. See this replay (https://halite.io/play/?game_id=7877830) for an example of the most exciting game ever. Eventually, I think it became accepted that cooperation was better than betrayal, and most people opted to dock if possible instead of rushing the enemy at the top end.
+A common counter to this was that players would move to a planet, but not dock if there was the possibility of a rush occurring. See this [replay](https://halite.io/play/?game_id=7877830) for an example of the most exciting game ever. Eventually, I think it became accepted that cooperation was better than betrayal, and most people opted to dock if possible instead of rushing the enemy at the top end.
 
 ## Numeric Superiority
 
@@ -130,6 +130,7 @@ To be honest, I for the most part, did not touch this code after the first week 
 [Lines 468:491](https://bitbucket.org/rbshum/halite-2-shummie/src/6bd0103d66feca775c2e2fffccf1c337c256722c/src/base_functions.cpp?at=master&fileviewer=file-view-default#base_functions.cpp-468:491) contain the full detail on the secondary planet scoring function, used for settlers
 * Planets that are closer to us are more valuable
 * Planets that are further from the enemy are more valuable
+
 #### 1f) Set rush mode
 This section of the code is found on [Lines 113:222](https://bitbucket.org/rbshum/halite-2-shummie/src/6bd0103d66feca775c2e2fffccf1c337c256722c/src/logic.cpp?at=master&fileviewer=file-view-default#logic.cpp-113:222) of logic.cpp
 I have a global flag rush_mode which is set to true if we activate the rush mode logic of the bot. In additon, in 4p games, a rush_id property is set which identifies our rush target.
@@ -152,7 +153,6 @@ If the enemy is within 7 * MAX_SPEED of us, then we activate rush mode.
 
 We deactivate rush mode if our rush target is dead, if the enemy's closest ship is more than 10 * MAX_SPEED from us, or we find a closer enemy that isn't our rush target.
 
-
 ### 2) Behavior/Target Assignment
 
 My idea at the time I did the last refactor of my bot, was to separate the strategic decisions from the tactical decisions. I considered strategic decisions to be target selections, or basically where we should be sending ships, and then a tactical module would be used to determine the actual movement of the ship. I refer to these as behaviors and navigation functions respectively. Ships get assigned roles (behaviors) that then have potentially unique tactical modules (navigations). I started off with something like 8 different behaviors and 12 navigation functions, but over time, I simplified and collapsed them to only a few of each that I'll go in more detail below.
@@ -164,7 +164,7 @@ I did have completely separate logic for 4 player vs 2 player games but again, a
 ##### 2a-1) Settler
 The settler role was probably the last one I added. One thing that I noticed, and later saw that Recurse did REALLY well, was that often times there were times that I could just send a ship off to a far off planet and the cost of that ship would pay for itself as it populated a planet that my default behavior would not have, and would not because of its target priorities.
 
-The settler role is located on lines 1498:1546 of behavior.cpp.
+The settler role is located on [lines 1498:1546](https://bitbucket.org/rbshum/halite-2-shummie/src/6bd0103d66feca775c2e2fffccf1c337c256722c/src/behavior.cpp?at=master&fileviewer=file-view-default#behavior.cpp-1498:1546) of behavior.cpp.
 
 Due to a "bug", the distance that the planet is actually has almost no relevance to what planet I want to go to. Basically the settler will go to the planet with the best (lowest) score_2 value. score_2 wasn't divided by MAX_SPEED, but I add distance / MAX_SPEED to the score. When I fixed it, it seemed to perform worse so I left it as it was.
 
@@ -184,7 +184,7 @@ The 4-player version of this is almost identical, with the exception that we don
 ##### 2a-3) Defender
 Everyone else who wasn't given a Distactor or Settler role (and it's not a rush game) gets assigned to the Defender role. In hindsight this was really a hack but whenever I tried to fix it, I end up messing up the bot so I left it as is.
 
-Anyway, lines 1637:1675 in behavior.cpp contains the defender code.
+[Lines 1637:1675](https://bitbucket.org/rbshum/halite-2-shummie/src/6bd0103d66feca775c2e2fffccf1c337c256722c/src/behavior.cpp?at=master&fileviewer=file-view-default#behavior.cpp-1637:1675) in behavior.cpp contains the defender code.
 
 Basically, what we do is for every docked ship, we look outward to see if there are any enemy ships in range of that docked ship. If there is we target the friendly docked ship and assign it the defense navigation function.
 
@@ -193,7 +193,7 @@ Note, that this does mean at this point we are completely overdefending. Later p
 ##### 2a-4) Default Behavior
 This is the fallback behavior. If any of the other roles can't find a valid target, OR if our ship reassignment later on says that we don't need that many ships for their target, it defaults back to this role. This role is actually more important than it sounds and is actually sort of a combination of all three of the other roles at once. This was my first behavior and then I split out the other roles to have specific defined roles for certain ships that I wanted to act a certain way.
 
-This function can be found in lines 1009:1189 in behavior.cpp
+This function can be found in [lines 1009:1189](https://bitbucket.org/rbshum/halite-2-shummie/src/6bd0103d66feca775c2e2fffccf1c337c256722c/src/behavior.cpp?at=master&fileviewer=file-view-default#behavior.cpp-1009:1189) in behavior.cpp
 
 We define an enemy range, which is basically # of turns to look out. I didn't want to get caught with a blind spot, so I actually have each ship vary by a little bit how far they look out. I figured it was better to diversify rather than to have a single static number. Not sure if it makes a huge difference, but some quick testing with various numbers showed that what I have seems to work well.
 
@@ -214,7 +214,7 @@ Note, the above logic triggers only if there exists an enemy ship within range. 
 ###### 2a-5) Rush
 I had separate behaviors and navigation functions for rushing. Eventually I collapse them into part of the dogfight nav with some flags to detect rush mode in there. But my 2p rush code is simple:
 
-Lines 1264:1300 in behavior.cpp
+[Lines 1264:1300](https://bitbucket.org/rbshum/halite-2-shummie/src/6bd0103d66feca775c2e2fffccf1c337c256722c/src/behavior.cpp?at=master&fileviewer=file-view-default#behavior.cpp-1264:1300) in behavior.cpp
 Get the closest enemy ship, if a ship is docked, prioritize that target.
 
 I did add in some extra code in to runaway if we're outnumbered but winning the damage fight. Not sure how often this triggered to be honest. But basically, if we have fewer ships but dealt more damage, just run away and hope we can end the game on time.
@@ -263,7 +263,7 @@ The first thing that I do is to sort all the undocked ships by entity id. This i
 
 I actually do a minimum of 2 navigation calls, or, more accurately, determine_move() calls. I have an extra parameter which I call initial which is used to determine initial moves for all ships and then when initial == false, we are allowed to consider other ships more freely. This will be evident as I go through the code.
 
-The actual code itself is located in navigation.cpp
+The actual code itself is located in [navigation.cpp](https://bitbucket.org/rbshum/halite-2-shummie/src/6bd0103d66feca775c2e2fffccf1c337c256722c/hlt/navigation.cpp?at=master&fileviewer=file-view-default)
 
 I create a vector that contains the set of objects I want to ignore. I actually create two vectors, one if the kamakaze flag is set which basically means we don't ignore docked ships. This is the first place that the initial flag is used. For the first run, we ignore our own undocked ships since we do the collision check in this step as well. This way we can pick the path we want to go to, and then handle collisions afterwards.
 
@@ -279,28 +279,28 @@ There are places where with a large number of ships that collision still occurs.
 Below I'll describe my navigation functions. The most complicated of which is Dogfight. We'll start with the simpler ones first.
 
 ##### 4b-1) Default_Navigation
-Lines 3:39 in behavior.cpp
+[Lines 3:39](https://bitbucket.org/rbshum/halite-2-shummie/src/6bd0103d66feca775c2e2fffccf1c337c256722c/src/behavior.cpp?at=master&fileviewer=file-view-default#behavior.cpp-3:39) in behavior.cpp
 This ultimately is only used to move a ship to a corner. A small bonus is given for moving faster, and a small bonus for navigating away from enemy ships.
 
 ##### 4b-2 & 3) Navigate_To_Planet & Navigate_To_Planet_4p_Rush
-Lines 84:165 in behavior.cpp
+[Lines 84:165](https://bitbucket.org/rbshum/halite-2-shummie/src/6bd0103d66feca775c2e2fffccf1c337c256722c/src/behavior.cpp?at=master&fileviewer=file-view-default#behavior.cpp-84:126) in behavior.cpp
 This works very similarly to Default_Navigation.
 A huge bonus is given to getting into docked range. From there, we give a small bonus for moving away from enemies and a small bonus for staying away from other docked friendly ships. (Mainly to avoid traffic jams)
 
 There's almost no difference now between the two navigation functions
 
 ##### 4b-4) Retreat_From_All
-Lines 168:204 in behavior.cpp
+[Lines 168:204](https://bitbucket.org/rbshum/halite-2-shummie/src/6bd0103d66feca775c2e2fffccf1c337c256722c/src/behavior.cpp?at=master&fileviewer=file-view-default#behavior.cpp-168:204) in behavior.cpp
 
 This is pretty simple as well. We look at the 10 closest enemy ships and give a bonus the further away we are from them. We heavily penalize moves that place us within potential attack range of the enemy. One side effect is that this pretty much always moves us into a corner or an edge. I never got around to penalizing this so eventually we do get cornered.
 
 ##### 4b-5) Defense
-Lines 987:1007 in behavior.cpp
+[Lines 987:1007](https://bitbucket.org/rbshum/halite-2-shummie/src/6bd0103d66feca775c2e2fffccf1c337c256722c/src/behavior.cpp?at=master&fileviewer=file-view-default#behavior.cpp-987:1007) in behavior.cpp
 
 A simple function. The entity_target is the ship we are trying to defend. We give a bonus for staying close to the docked ship, and then we find the closest enemy ship and give a bonus for moving close to them as well. This encourages the defense ship to stay in between the docked ship we are defending and the closest enemy ship that's attacking.
 
 ##### 4b-6) Dogfight
-Lines 426:790 in behavior.cpp
+[Lines 426:790](https://bitbucket.org/rbshum/halite-2-shummie/src/6bd0103d66feca775c2e2fffccf1c337c256722c/src/behavior.cpp?at=master&fileviewer=file-view-default#behavior.cpp-426:790) in behavior.cpp
 
 Ok... this one is the monster, it's the most complicated piece of the entire bot and also the main brains of the whole thing. Nearly every single behavior now uses this for the tactical decision making.
 
