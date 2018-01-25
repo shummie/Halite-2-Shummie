@@ -16,7 +16,7 @@ In reality, this idea actually came from @DexGroves. My former colleague who unf
 
 Hopefully we won't see something similar in Halite 3.
 
-### The Drone Harass
+## The Drone Harass
 
 So, for those of you young'uns who don't know what the drone harass is, watch this: (https://www.youtube.com/watch?v=etDGtMMhf9w)
 
@@ -28,13 +28,13 @@ Oh rushing. How I hate you. I'm going to get the attribution wrong, but I think 
 
 I think rushing is a broken mechanic that basically reduces the game to a coinflip.
 
-### The Prisoner's Dilemma
+## The Prisoner's Dilemma
 
 So rushing in 4p games was... a nuisance. Early on, when bots didn't have proper rush defense, it benefited people to rush their opponent, take them out early, and thus get half the map for yourself. However, as the meta developed, it basically became the prisoner's dilemma. If one bot rushed while the other didn't, the bot that rushed would win. If both bots rushed, then it was likely they'll kill / stall each other and the other two players who didn't rush would win. I was one of the more... enthusiastic rushers, but more out of necessity than anything else. It wasn't until the last few days where I was able to tone it down enough to still maintain/improve my win rate.
 
 A common counter to this was that players would move to a planet, but not dock if there was the possibility of a rush occurring. See this game (https://halite.io/play/?game_id=7877830) for an example of the most exciting game ever. Eventually, I think it became accepted that cooperation was better than betrayal, and most people opted to dock if possible instead of rushing the enemy at the top end.
 
-### Numeric Superiority
+## Numeric Superiority
 
 Sorry, I don't have a fancy name for this. I first noticed this from @zxqfl but I think @reCurs3 and @FakePsyho took this to a whole new level. Basically, it boils down to: Do not fight in a fight where you cannot win. Prior to this, most ships just attacked each other haphazardly. But, in reality, fighting for a tie does nothing. Detecting if you were outnumbered, or in a tie, meant that you should try retreating back to a friendly ship to outnumber the opponent. By the end, every top bot was doing this in some form or fashion. It's not always easy to figure out when you could attack or not. This lead to some games having a giant deathball rolling around <<REPLAY HERE>>. I can only speculate on how people implemented this but different implementations led to different behaviors.
   
@@ -77,6 +77,7 @@ Having used python in Halite 1 and running into issues with timeouts, I knew tha
 
 In the beta, I did stay with Python mainly because I was familiar with it, and the starter kit for C++ was in my opinion, a complete mess. Since it was just a beta, I decided to stick with it with the intent to port over to C++ when the starter kit was fixed. Also, since I was asked to not submit my python bot for a few days, I used that opportunity to port my python bot over to C++. Given I was having some timeout issues with Python (mainly through trying to loop through things too many times), and knowing the problem scope would be orders of magnitude higher than Halite 1, I knew that I would need to swap off Python if I wanted to contend for a top place this time around.
 
+## Starter Kit Modifications
 
 For the most part I used the majority of the c++ starter kit but added additional properties to the bot which I explain below. Only the ones that are interesting are listed:
 
@@ -94,12 +95,14 @@ Ship:
     rand1, rand2 : Random numbers generated to store some sort of persistency
 
 
+## Bot Logic Overview
+
 A turn in my bot can be broken up into the following major steps which I'll go into detail on:
 
-1) Turn Initialization
-2) Behavior/Target Assignment
-3) Target Post-Processing and Reassignment
-4) Navigation
+1. Turn Initialization
+2. Behavior/Target Assignment
+3. Target Post-Processing and Reassignment
+4. Navigation
 
 
 1) Turn Initialization:
