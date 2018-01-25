@@ -37,7 +37,19 @@ A common counter to this was that players would move to a planet, but not dock i
 ## Numeric Superiority
 
 Sorry, I don't have a fancy name for this. I first noticed this from @zxqfl but I think @reCurs3 and @FakePsyho took this to a whole new level. Basically, it boils down to: Do not fight in a fight where you cannot win. Prior to this, most ships just attacked each other haphazardly. But, in reality, fighting for a tie does nothing. Detecting if you were outnumbered, or in a tie, meant that you should try retreating back to a friendly ship to outnumber the opponent. By the end, every top bot was doing this in some form or fashion. It's not always easy to figure out when you could attack or not. This lead to some games having a giant deathball rolling around <<REPLAY HERE>>. I can only speculate on how people implemented this but different implementations led to different behaviors.
-  
+ 
+## The NAP
+
+Wait, what? Yes... The Non-Aggression Pact. Or, I guess it would be more accurately described as the alliance.
+
+@ewirkerman and I had decided to collaborate and create a NAP in 4 player games. Every game, we would send a signal in 4p games, and if the secret handshake was detected, we would not attack each other's docked ships. For all intents and purposes, our ships were invisible to each other (or... at least that was the intent). Also, we would make sure that the enemy was completely eliminated before turning on each other. This would, in theory, guarantee that we were placed 1st and 2nd when we were on the same side of the map, and in theory, would still have some benefit if we were across or diagonal from each other.
+
+We kept it hidden until the final two hours of the competition. Surprisingly, no one noticed, and we saw a definite spike in our win rates when we were in the same game. We had done a lot of local testing to make sure we had all the bugs worked out. I even uploaded my alliance dance code for about 2 weeks, but if it detected a positive, i would immediately crash. This would give us an idea of how often our signal would have a false positive. In two weeks of playing, there were 0 false positives.
+
+It wasn't always that easy actually. Our original signal caused me to crash in about 30% of my 4p games. However, we found out later that @ewirkerman actually had been sending his signal the entire time! Despite that, I saw games where I was crashing where he wasn't in it, so we decided to make our signal slightly more complicated so that we would reduce the frequency of false positives.
+
+Also, I actually backstabbed him =(. What I had done is basically remove all of my allied ships from the enemy filters that I create, and the filters are what I use for any sort of decision making. Except... the ships's nearby enemy ship vectors are built off of the raw data in the game_map object... The code [here](https://bitbucket.org/rbshum/halite-2-shummie/src/6bd0103d66feca775c2e2fffccf1c337c256722c/src/base_functions.cpp?at=master&fileviewer=file-view-default#base_functions.cpp-371:405) is what creates the nearby ship vectors and I didn't add a check to the ally function since I had forgotten that's what created it. We didn't notice this until after the finals because of a bug in his code where he stays still until all planets are captured. That's when he noticed that my ships actually attack his. In our testing, we just assumed any damage done was collateral damage from ignoring the other player's ships. In reality, my ships saw that they outnumbered enemy ships on their way to their target and used that opportunity to attack. Oops.
+ 
 # History
 
 The competition was dominated by a few distinct eras.
