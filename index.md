@@ -211,7 +211,7 @@ If this ship is within our enemy range, OR there are no planets for us to dock t
 
 Note, the above logic triggers only if there exists an enemy ship within range. Just because an enemy ship is in range doesn't mean we'll actually target that ship. Instead, it's more of an indicator that it's not safe to try to dock to a planet. So, if it doesn't detect an enemy ship in range, instead, we'll try to dock to a planet. We sort the available planet by score + distance and pick the best target. I noticed that we always try to dock to the same planet and I wanted to add some variability into the equation, so I had the score_1 function weight vary depending on a random factor. So, sometimes it'll to go the most valuable planet, other times just the closest. It doesn't provide huge variation, but enough that it doesn't get caught all the time.
 
-###### 2a-5) Rush
+##### 2a-5) Rush
 I had separate behaviors and navigation functions for rushing. Eventually I collapse them into part of the dogfight nav with some flags to detect rush mode in there. But my 2p rush code is simple:
 
 [Lines 1264:1300](https://bitbucket.org/rbshum/halite-2-shummie/src/6bd0103d66feca775c2e2fffccf1c337c256722c/src/behavior.cpp?at=master&fileviewer=file-view-default#behavior.cpp-1264:1300) in behavior.cpp
