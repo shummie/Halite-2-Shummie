@@ -22,7 +22,7 @@ So, for those of you young'uns who don't know what the drone harass is, watch th
 
 Ok, for everyone else. I first noticed this from @ewirkerman. Early on, he would send out a lone ship (I think even as aggressively as one of his three starting ships) to harass the enemy by either targeting his docked ships, or by distracting them enough that they would start chasing it and thus lose production. Early on, most bots did not have good defense, or would overcommit to defending against enemy ships. It was a very effective strategy for a long time until people started having better enemy targeting and wouldn't have 10 ships chase a single one. You can still see this idea in many bots today, maybe not explicitly coded, but more from emergent behavior through better combat evaluation.
 
-### Rushing
+## Rushing
 
 Oh rushing. How I hate you. I'm going to get the attribution wrong, but I think the first person that I saw do this was @mellendo in the beta. I noticed that he was quickly rushing to kill off people's ships early on and it was all downhill from there. I'm not going to expound upon this more since @fohristiwhirl did a great job explaining this in his writeup (https://github.com/fohristiwhirl/halite2_rush_theory).
 
@@ -80,18 +80,18 @@ In the beta, I did stay with Python mainly because I was familiar with it, and t
 For the most part I used the majority of the c++ starter kit but added additional properties to the bot which I explain below. Only the ones that are interesting are listed:
 
 Entity:
-    * score_1, score_2 : Used for planet scoring
-    * vx, vy : Used to store projected velocities for collision detection
-    * projected_location : Used to store the projected location for this entity on the next turn
-    * targeted : Used to store which of my ships are targeting this entity. Important so that we don't send too many ships to a single target.
+* score_1, score_2 : Used for planet scoring
+* vx, vy : Used to store projected velocities for collision detection
+* projected_location : Used to store the projected location for this entity on the next turn
+* targeted : Used to store which of my ships are targeting this entity. Important so that we don't send too many ships to a single target.
 
 Ship:
-    * nav : Used to store the navigation function that we want to use for movement
-    * behavior : Used to store the behavior function that we want to use for target selection
-    * entity_target : Used to store the entity we're targeting
-    * nearby_enemy_ships : Stores a vector of pointers to all nearby enemy ships (used to speed up since we only care about ships that can affect us)
-    * nearby_friendly_ships : Stores a vector of pointers to all nearby friendly ships.
-    * rand1, rand2 : Random numbers generated to store some sort of persistency
+* nav : Used to store the navigation function that we want to use for movement
+* behavior : Used to store the behavior function that we want to use for target selection
+* entity_target : Used to store the entity we're targeting
+* nearby_enemy_ships : Stores a vector of pointers to all nearby enemy ships (used to speed up since we only care about ships that can affect us)
+* nearby_friendly_ships : Stores a vector of pointers to all nearby friendly ships.
+* rand1, rand2 : Random numbers generated to store some sort of persistency
 
 
 ## Bot Logic Overview
@@ -104,53 +104,53 @@ A turn in my bot can be broken up into the following major steps which I'll go i
 4. Navigation
 
 
-1) Turn Initialization:
+### 1) Turn Initialization:
 
-1a) Simulate start of turn
-    One optimization that I did was to predict at the beginning of the turn, ships that would attack each other immediately and would die. If a ship would die, friendly or enemy, I would effectively ignore it for the rest of the turn. I kept track of ships that fired by setting its weapon_cooldown property to 1. I do use this, but I'm not sure if it made a significant difference.
-1b) Create ship vectors
-    To make things easier, I created vectors of ships/planets that I cared about, such as: my_ships, my_undocked_ships, enemy_docked_ships, neutral_planets, etc... This made it easy to determine what I wanted to loop through.
-    Each ship also has a vector of nearby friendly/enemy ships (relative to the ship). This was used because in my navigation code, I was doing a sort on ALL undocked ships for EVERY move combination, for EVERY SHIP. At least twice. C++ let me get away with a LOT of things, including horribly inefficient code. Eventually, this just got to be too much, so pruning down the entire map's worth of ships into just ships that we care about (Ships that are within 2*MAX_SPEED + WEAPON_RADIUS + 2*SHIP_RADIUS) made my code run significantly faster.
-1c) Process last turn ship data
-    This includes carrying over some persistent data, like the rand1 and rand2 properties of ships.
-    I also calculate the prior turn's enemy movements. Mainly because at one point I had primitive enemy prediction (basically, assume they move the same way they did before). This is also used for ally detection obviously.
-1d) Ally code check
-    If I had an ally in the game, I would overwrite my created ship vectors and stick them into the ally vectors.
-    This is also where we check if we should remain allies or if everyone else is dead.
-1e) Score planets
-    To be honest, I for the most part, did not touch this code after the first week or two. But, I assign each planet a score which is it's desireability. I actually assign 2/3 scores to planets. The first, score_1 is used for the default behavior. This score does vary between 2 player and 4 player games. score_2 is what I use for my settler behavior, which I'll talk about more later.
+#### 1a) Simulate start of turn
+One optimization that I did was to predict at the beginning of the turn, ships that would attack each other immediately and would die. If a ship would die, friendly or enemy, I would effectively ignore it for the rest of the turn. I kept track of ships that fired by setting its weapon_cooldown property to 1. I do use this, but I'm not sure if it made a significant difference.
+#### 1b) Create ship vectors
+To make things easier, I created vectors of ships/planets that I cared about, such as: my_ships, my_undocked_ships, enemy_docked_ships, neutral_planets, etc... This made it easy to determine what I wanted to loop through.
+Each ship also has a vector of nearby friendly/enemy ships (relative to the ship). This was used because in my navigation code, I was doing a sort on ALL undocked ships for EVERY move combination, for EVERY SHIP. At least twice. C++ let me get away with a LOT of things, including horribly inefficient code. Eventually, this just got to be too much, so pruning down the entire map's worth of ships into just ships that we care about (Ships that are within 2*MAX_SPEED + WEAPON_RADIUS + 2*SHIP_RADIUS) made my code run significantly faster.
+#### 1c) Process last turn ship data
+This includes carrying over some persistent data, like the rand1 and rand2 properties of ships.
+I also calculate the prior turn's enemy movements. Mainly because at one point I had primitive enemy prediction (basically, assume they move the same way they did before). This is also used for ally detection obviously.
+#### 1d) Ally code check
+If I had an ally in the game, I would overwrite my created ship vectors and stick them into the ally vectors.
+This is also where we check if we should remain allies or if everyone else is dead.
+#### 1e) Score planets
+To be honest, I for the most part, did not touch this code after the first week or two. But, I assign each planet a score which is it's desireability. I actually assign 2/3 scores to planets. The first, score_1 is used for the default behavior. This score does vary between 2 player and 4 player games. score_2 is what I use for my settler behavior, which I'll talk about more later.
 
-    Lines 493:571 in base_function.cpp contains the full detail on the primary planet scoring function, but at a high level:
-    * Planets that have more docking spaces are more valuable
-    * Planets that we own have more priority
-    * A penalty is given for planets with 2 docking spots at the beginning of the game
-    * In 2 player games, planets that are close to other planets are more valuable
-    * In 4 player games, planets that are closer to other neutral or owned planets are more valuable, but planets closer to the enemy are less valuable. In addition, planets that are further away from the center are more valuable (The idea is that you don't want to be flanked by multiple enemies and that we should capture our side of the map first)
+Lines 493:571 in base_function.cpp contains the full detail on the primary planet scoring function, but at a high level:
+* Planets that have more docking spaces are more valuable
+* Planets that we own have more priority
+* A penalty is given for planets with 2 docking spots at the beginning of the game
+* In 2 player games, planets that are close to other planets are more valuable
+* In 4 player games, planets that are closer to other neutral or owned planets are more valuable, but planets closer to the enemy are less valuable. In addition, planets that are further away from the center are more valuable (The idea is that you don't want to be flanked by multiple enemies and that we should capture our side of the map first)
 
-    Lines 468:491 contain the full detail on the secondary planet scoring function, used for settlers
-    * Planets that are closer to us are more valuable
-    * Planets that are further from the enemy are more valuable
-1f) Set rush mode
-    This section of the code is found on Lines 113:222 of logic.cpp
-    I have a global flag rush_mode which is set to true if we activate the rush mode logic of the bot. In additon, in 4p games, a rush_id property is set which identifies our rush target.
+Lines 468:491 contain the full detail on the secondary planet scoring function, used for settlers
+* Planets that are closer to us are more valuable
+* Planets that are further from the enemy are more valuable
+#### 1f) Set rush mode
+This section of the code is found on Lines 113:222 of logic.cpp
+I have a global flag rush_mode which is set to true if we activate the rush mode logic of the bot. In additon, in 4p games, a rush_id property is set which identifies our rush target.
 
-    I fiddled around with the numbers here so many times it's not even funny. At the end here is what I decided to do:
+I fiddled around with the numbers here so many times it's not even funny. At the end here is what I decided to do:
 
-    For 2 player games -
-    If it's been less than 16 turns, the enemy has no docked ships, then look at the distance between each of our ships and each enemy ships. If it's less than 11 * MAX_SPEED away, we activate rush mode.
+For 2 player games -
+If it's been less than 16 turns, the enemy has no docked ships, then look at the distance between each of our ships and each enemy ships. If it's less than 11 * MAX_SPEED away, we activate rush mode.
 
-    A last day fix that I put in was that once in a while, I might have a ship fly to the center and the other two ships fly away from the center. The enemy might do the same. In this situation, I don't actually want to activate the rush mode. So I added an additional check where we only activate rush mode if all of our ships are within 3 * MAX_SPEED from each other.
+A last day fix that I put in was that once in a while, I might have a ship fly to the center and the other two ships fly away from the center. The enemy might do the same. In this situation, I don't actually want to activate the rush mode. So I added an additional check where we only activate rush mode if all of our ships are within 3 * MAX_SPEED from each other.
 
-    We deactivate rush mode if the enemy's closest ship is more than 11 * MAX_SPEED away from us.
+We deactivate rush mode if the enemy's closest ship is more than 11 * MAX_SPEED away from us.
 
-    For 4 player games -
-    This logic is a bit more complicated and gets intertwined with the actual Rush behavior which I'll discuss below.
+For 4 player games -
+This logic is a bit more complicated and gets intertwined with the actual Rush behavior which I'll discuss below.
 
-    As with the 2 player section, I changed the thresholds here so many times. At the end, I decided to go with a much less rush happy bot.
+As with the 2 player section, I changed the thresholds here so many times. At the end, I decided to go with a much less rush happy bot.
 
-    If the enemy is within 7 * MAX_SPEED of us, then we activate rush mode.
+If the enemy is within 7 * MAX_SPEED of us, then we activate rush mode.
 
-    We deactivate rush mode if our rush target is dead, if the enemy's closest ship is more than 10 * MAX_SPEED from us, or we find a closer enemy that isn't our rush target.
+We deactivate rush mode if our rush target is dead, if the enemy's closest ship is more than 10 * MAX_SPEED from us, or we find a closer enemy that isn't our rush target.
 
 
 2) Behavior/Target Assignment
