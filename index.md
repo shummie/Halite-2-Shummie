@@ -14,7 +14,7 @@ I would love to claim credit for this, and I think I can, but I also want to giv
 
 In reality, this idea actually came from @DexGroves. My former colleague who unfortunately did not participate in the open competition, but did participate in the beta. He was the one that originally showed me this trick but quickly disabled it for the beta. I promised him I wouldn't steal it for the beta, but would use it in the open competition. It was an obvious idea so it would have just been a matter of time before someone else did it.
 
-Hopefully we won't see something similar in Halite 3.
+Hopefully we won't see the need to implement something similar in Halite 3.
 
 ## The Drone Harass
 
@@ -26,13 +26,13 @@ Ok, for everyone else. I first noticed this from @ewirkerman. Early on, he would
 
 Oh rushing. How I hate you. I'm going to get the attribution wrong, but I think the first person that I saw do this was @mellendo in the beta. I noticed that he was quickly rushing to kill off people's ships early on and it was all downhill from there. I'm not going to expound upon this more since @fohristiwhirl did a great job explaining this in his writeup (https://github.com/fohristiwhirl/halite2_rush_theory).
 
-I think rushing is a broken mechanic that basically reduces the game to a coinflip.
+I think rushing is a broken game design that basically reduces the game to a coinflip. 
 
 ## The Prisoner's Dilemma
 
 So rushing in 4p games was... a nuisance. Early on, when bots didn't have proper rush defense, it benefited people to rush their opponent, take them out early, and thus get half the map for yourself. However, as the meta developed, it basically became the prisoner's dilemma. If one bot rushed while the other didn't, the bot that rushed would win. If both bots rushed, then it was likely they'll kill / stall each other and the other two players who didn't rush would win. I was one of the more... enthusiastic rushers, but more out of necessity than anything else. It wasn't until the last few days where I was able to tone it down enough to still maintain/improve my win rate.
 
-A common counter to this was that players would move to a planet, but not dock if there was the possibility of a rush occurring. See this game (https://halite.io/play/?game_id=7877830) for an example of the most exciting game ever. Eventually, I think it became accepted that cooperation was better than betrayal, and most people opted to dock if possible instead of rushing the enemy at the top end.
+A common counter to this was that players would move to a planet, but not dock if there was the possibility of a rush occurring. See this replay (https://halite.io/play/?game_id=7877830) for an example of the most exciting game ever. Eventually, I think it became accepted that cooperation was better than betrayal, and most people opted to dock if possible instead of rushing the enemy at the top end.
 
 ## Numeric Superiority
 
@@ -61,14 +61,13 @@ For the rest of the competition, @ReCurse3 dominated the top spot and no one has
 
 # My Bot
 
-I'm not going to go into too much detail about older versions of my bot. I will say that a very simple bot that prioritizes docked ships and doesn't crash will probably get you close to the top 50-100. A simple target loop like the following:
+I'm not going to go into too much detail about older versions of my bot. I will say that a very simple bot that prioritizes docked ships and doesn't crash will probably get you close to the top 100. A simple target loop like the following:
 
-Find enemies within distance X from us. If no enemies are near, dock on nearest neutral/owned not full planet. Otherwise, target closest enemy or docked ship.
+Find enemies within distance X from us. If no enemies are near, dock on nearest neutral/owned not full planet. Otherwise, target closest enemy or docked ship. 
 
-Seriously. A bot as simple as that using the default starter bot would probably perform very well.
+Seriously. A bot as simple as that using the default starter bot and adding in rushing would probably perform very well.
 
 One overarching theme that I recommend is. Simplify. Simplify, Simplify, Simplify.
-
 
 I would say that I had three major versions of my bot. The python version, my first C++ version, and my most recent version. And, in fact, I'd probably lump the python and c++ version together into a single one. I'll talk through the structure of my final bot in this post mortem. Warning, the below is fairly detailed but walks through my logic in a better format than looking at the source code itself.
 
@@ -78,21 +77,21 @@ Having used python in Halite 1 and running into issues with timeouts, I knew tha
 In the beta, I did stay with Python mainly because I was familiar with it, and the starter kit for C++ was in my opinion, a complete mess. Since it was just a beta, I decided to stick with it with the intent to port over to C++ when the starter kit was fixed. Also, since I was asked to not submit my python bot for a few days, I used that opportunity to port my python bot over to C++. Given I was having some timeout issues with Python (mainly through trying to loop through things too many times), and knowing the problem scope would be orders of magnitude higher than Halite 1, I knew that I would need to swap off Python if I wanted to contend for a top place this time around.
 
 ## Starter Kit Modifications
-
 For the most part I used the majority of the c++ starter kit but added additional properties to the bot which I explain below. Only the ones that are interesting are listed:
 
 Entity:
-    score_1, score_2 : Used for planet scoring
-    vx, vy : Used to store projected velocities for collision detection
-    projected_location : Used to store the projected location for this entity on the next turn
+    * score_1, score_2 : Used for planet scoring
+    * vx, vy : Used to store projected velocities for collision detection
+    * projected_location : Used to store the projected location for this entity on the next turn
+    * targeted : Used to store which of my ships are targeting this entity. Important so that we don't send too many ships to a single target.
 
 Ship:
-    nav : Used to store the navigation function that we want to use for movement
-    behavior : Used to store the behavior function that we want to use for target selection
-    entity_target : Used to store the entity we're targeting
-    nearby_enemy_ships : Stores a vector of pointers to all nearby enemy ships (used to speed up since we only care about ships that can affect us)
-    nearby_friendly_ships : Stores a vector of pointers to all nearby friendly ships.
-    rand1, rand2 : Random numbers generated to store some sort of persistency
+    * nav : Used to store the navigation function that we want to use for movement
+    * behavior : Used to store the behavior function that we want to use for target selection
+    * entity_target : Used to store the entity we're targeting
+    * nearby_enemy_ships : Stores a vector of pointers to all nearby enemy ships (used to speed up since we only care about ships that can affect us)
+    * nearby_friendly_ships : Stores a vector of pointers to all nearby friendly ships.
+    * rand1, rand2 : Random numbers generated to store some sort of persistency
 
 
 ## Bot Logic Overview
